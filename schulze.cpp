@@ -3,6 +3,16 @@
 using namespace std;
 #define C 5
 
+void print(int A[C][C])
+{
+  cout<<endl;
+  for(int i=0;i<C;i++)
+    {
+      for(int j=0;j<C;j++)
+	cout<<A[i][j]<<' ';
+      cout<<endl;
+    }
+}
 int max(int a,int b)
 {
   if(a>b)
@@ -30,19 +40,26 @@ int main()
     {
       char vote[C];
       cin>>vote;
+      int flag = 0;
       for(int i=0;i<C;i++)
+	  for(int j=i+1;j<C;j++)
+	    if(vote[i]==vote[j])
+	      flag=1;//repeated vote
+      if(flag==0)
+	for(int i=0;i<C;i++)
 	  for(int j=i+1;j<C;j++)
 	    d[vote[i]-'A'][vote[j]-'A']++;
     }
+   print(d);
   
   for(int i=0;i<C;i++)
 	  for(int j=0;j<C;j++)
-	    if(i!=j && d[i][j]>d[j][i])
+	    if(i!=j && d[i][j]>=d[j][i])
 	      p[i][j]=d[i][j];
 	    else
 	      p[i][j]=0;
 
- 
+  // print(p);
 
   for(int i=0;i<C;i++)
     for(int j=0;j<C;j++)
@@ -50,7 +67,7 @@ int main()
 	for(int k=0;k<C;k++)
 	  if(i!=k && j!=k)
 	    p[j][k] = max(p[j][k],min(p[j][i],p[i][k]));
-
+  print(p);
 
   char Result[C];
   for(int i=0;i<C;i++)
